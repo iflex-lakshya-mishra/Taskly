@@ -1,7 +1,10 @@
+import FloatingButton from "@/components/FloatingButton";
+import NavigationBar from "@/components/NavigationBar";
+import PocessTask from "@/components/PocessTask";
+import UpcomingTasks from "@/components/UpcomingTasks";
 import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
-import { Text, View } from "react-native";
-import NavigationBar from "@/components/NavigationBar";
+import { ScrollView, Text, View } from "react-native";
 
 const Home = () => {
   const Name = "Lakshya";
@@ -21,7 +24,7 @@ const Home = () => {
   }
 
   return (
-    <View className="flex-1 bg-white">
+    <View className="flex-1 bg-[#161622]">
       <LinearGradient
         colors={["#2563eb", "#06b6d4"]}
         className="h-40 rounded-b-3xl pt-12 pb-6 px-5"
@@ -30,12 +33,19 @@ const Home = () => {
         <Text className="text-3xl  font-bold text-white">{Name}</Text>
       </LinearGradient>
 
-      <View className="flex-1 pb-28">
-        <View className="p-9">
-          <Text className="text-3xl font-bold">Today</Text>
-        </View>
+      <View>
+        <PocessTask />
       </View>
+      <Text className="text-white text-lg font-bold mt-4 mb-2 ml-5">
+        Upcoming Tasks
+      </Text>
+      <ScrollView className="flex-1 bg-[#0F172A]">
+        <View className="pb-4">
+          <UpcomingTasks />
+        </View>
+      </ScrollView>
 
+      <FloatingButton />
       <NavigationBar />
     </View>
   );
