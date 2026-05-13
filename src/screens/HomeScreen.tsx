@@ -54,14 +54,14 @@ const HomeScreen = () => {
         }
 
         const currentName = await AsyncStorage.getItem(
-          "current-user-display-name"
+          "current-user-display-name",
         );
         const storedName = await AsyncStorage.getItem(
-          `user-display-name-${user.uid}`
+          `user-display-name-${user.uid}`,
         );
         const emailName = user.email
           ? await AsyncStorage.getItem(
-              `user-display-name-${user.email.toLowerCase()}`
+              `user-display-name-${user.email.toLowerCase()}`,
             )
           : "";
         const nextName =
@@ -96,7 +96,7 @@ const HomeScreen = () => {
       >
         <Text className="text-xl mb-2 text-white">{getGreeting()}</Text>
         <Text className="text-3xl font-bold text-white">
-          {isNameLoading ? "Loading..." : displayName || "Taskly user"}
+          {isNameLoading ? "Loading..." : displayName || "Taskly"}
         </Text>
       </LinearGradient>
 
