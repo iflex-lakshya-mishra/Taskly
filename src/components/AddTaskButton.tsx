@@ -2,9 +2,9 @@ import { router } from "expo-router";
 import React from "react";
 import { TouchableOpacity, Text } from "react-native";
 
-const FloatingButton = () => {
+const AddTaskButton = () => {
   const handleOpen = () => {
-    router.push("/TaskCard");
+    router.push("/create-task");
   };
   return (
     <TouchableOpacity
@@ -29,4 +29,4 @@ const FloatingButton = () => {
   );
 };
 
-export default FloatingButton;
+export default AddTaskButton;

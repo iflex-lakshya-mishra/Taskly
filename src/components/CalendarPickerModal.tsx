@@ -2,7 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useMemo, useState } from "react";
 import { Modal, Text, TouchableOpacity, View } from "react-native";
 
-type CalendarModalProps = {
+type CalendarPickerModalProps = {
   visible: boolean;
   selectedDate: Date;
   onClose: () => void;
@@ -13,12 +13,12 @@ const formatTaskDate = (date: Date) => {
   return date.toISOString().split("T")[0];
 };
 
-const CalendarModal = ({
+const CalendarPickerModal = ({
   visible,
   selectedDate,
   onClose,
   onSelectDate,
-}: CalendarModalProps) => {
+}: CalendarPickerModalProps) => {
   const [calendarMonth, setCalendarMonth] = useState(new Date());
 
   const monthDays = useMemo(() => {
@@ -132,4 +132,4 @@ const CalendarModal = ({
   );
 };
 
-export default CalendarModal;
+export default CalendarPickerModal;

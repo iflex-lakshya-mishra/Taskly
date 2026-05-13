@@ -1,30 +1,42 @@
 import { Ionicons } from "@expo/vector-icons";
-import { useState } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Href, router, usePathname } from "expo-router";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const TABS = [
-  { name: "Home", icon: "home-outline" as const },
-  { name: "Schedule", icon: "calendar-outline" as const },
-  { name: "Stats", icon: "bar-chart-outline" as const },
-  { name: "Settings", icon: "settings-outline" as const },
+  { name: "Home", path: "/home" as Href, icon: "home-outline" as const },
+  {
+    name: "Schedule",
+    path: "/schedule" as Href,
+    icon: "calendar-outline" as const,
+  },
+  { name: "Stats", path: "/stats" as Href, icon: "bar-chart-outline" as const },
+  {
+    name: "Settings",
+    path: "/settings" as Href,
+    icon: "settings-outline" as const,
+  },
 ];
 
-export default function NavigationBar() {
-  const [active, setActive] = useState(0);
+export default function BottomNavigation() {
+  const pathname = usePathname();
   const insets = useSafeAreaInsets();
 
   return (
     <View
-      className="flex-row bg-[#12122A] border-t border-[#2D2D4A] pt-2"
-      style={{ paddingBottom: insets.bottom + 8 }}
+      className="flex-row bg-[#12122A] border-t border-[#2D2D4A]"
+      style={[styles.container, { paddingBottom: insets.bottom + 8 }]}
     >
-      {TABS.map((tab, i) => {
-        const isActive = active === i;
+      {TABS.map((tab) => {
+        const isActive = pathname === tab.path;
         return (
           <TouchableOpacity
             key={tab.name}
-            onPress={() => setActive(i)}
+            onPress={() => {
+              if (!isActive) {
+                router.navigate(tab.path);
+              }
+            }}
             activeOpacity={0.7}
             className="flex-1 items-center gap-1"
           >
@@ -52,3 +64,9 @@ export default function NavigationBar() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    paddingTop: 8,
+  },
+});
