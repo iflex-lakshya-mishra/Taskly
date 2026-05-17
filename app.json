@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Taskly",
-    "slug": "taskly",
+    "slug": "tasly",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -19,7 +19,8 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.lakshyamishrasorganization.tasly"
     },
     "web": {
       "output": "static",
@@ -48,6 +49,7 @@
       "eas": {
         "projectId": "4f698e13-fb9e-42ed-9cc8-6486e10fd486"
       }
-    }
+    },
+    "owner": "lakshya-mishras-organization"
   }
 }
