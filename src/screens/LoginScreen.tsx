@@ -1,23 +1,31 @@
 import { auth } from "@/src/firebase/config";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as Google from "expo-auth-session/providers/google";
 import { router } from "expo-router";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import React, { useState } from "react";
+import * as WebBrowser from "expo-web-browser";
 import {
-  Alert,
-  ImageBackground,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
+    GoogleAuthProvider,
+    signInWithCredential,
+    signInWithEmailAndPassword,
+} from "firebase/auth";
+import { useEffect, useState } from "react";
+import {
+    Alert,
+    ImageBackground,
+    KeyboardAvoidingView,
+    Platform,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
 } from "react-native";
 
 const loginBg = require("../../assets/images/LoginBg.png");
+
+WebBrowser.maybeCompleteAuthSession();
 
 const getErrorMessage = (error: unknown) => {
   return error instanceof Error ? error.message : "Please try again.";
@@ -28,6 +36,49 @@ const LoginScreen = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    expoClientId: process.env.EXPO_PUBLIC_GOOGLE_EXPO_CLIENT_ID,
+    iosClientId: process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID,
+    androidClientId: process.env.EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID,
+    webClientId: process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID,
+  });
+
+  useEffect(() => {
+    const signInWithGoogle = async () => {
+      if (response?.type !== "success") {
+        return;
+      }
+
+      const idToken =
+        response.authentication?.idToken || response.params?.id_token;
+
+      if (!idToken) {
+        Alert.alert("Google login failed", "Missing Google token.");
+        return;
+      }
+
+      try {
+        setIsGoogleLoading(true);
+        const credential = GoogleAuthProvider.credential(idToken);
+        const userCredential = await signInWithCredential(auth, credential);
+        const displayName = userCredential.user.displayName;
+
+        if (displayName) {
+          await AsyncStorage.setItem("current-user-display-name", displayName);
+        }
+
+        router.replace("/home");
+      } catch (error) {
+        Alert.alert("Google login failed", getErrorMessage(error));
+      } finally {
+        setIsGoogleLoading(false);
+      }
+    };
+
+    void signInWithGoogle();
+  }, [response]);
 
   const handleLogin = async () => {
     if (!email || !password) {
@@ -51,10 +102,10 @@ const LoginScreen = () => {
       const userCredential = await signInWithEmailAndPassword(
         auth,
         email,
-        password
+        password,
       );
       const storedName = await AsyncStorage.getItem(
-        `user-display-name-${email.trim().toLowerCase()}`
+        `user-display-name-${email.trim().toLowerCase()}`,
       );
       const displayName = userCredential.user.displayName || storedName;
 
@@ -69,6 +120,22 @@ const LoginScreen = () => {
       Alert.alert("Login failed", getErrorMessage(error));
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    if (!request) {
+      Alert.alert(
+        "Google login unavailable",
+        "Set the Google client IDs in your environment variables first.",
+      );
+      return;
+    }
+
+    try {
+      await promptAsync();
+    } catch (error) {
+      Alert.alert("Google login failed", getErrorMessage(error));
     }
   };
 
@@ -122,6 +189,15 @@ const LoginScreen = () => {
                 {isLoading ? "Logging in..." : "Login"}
               </Text>
             </TouchableOpacity>
+            <TouchableOpacity
+              disabled={isGoogleLoading}
+              onPress={handleGoogleLogin}
+              style={styles.googleButton}
+            >
+              <Text style={styles.googleButtonText}>
+                {isGoogleLoading ? "Signing in..." : "Continue with Google"}
+              </Text>
+            </TouchableOpacity>
             <TouchableOpacity onPress={() => router.push("/signup")}>
               <Text style={styles.footerText}>
                 {"Don't have an account? "}
@@ -152,6 +228,19 @@ const styles = StyleSheet.create({
   },
   primaryButtonText: {
     color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  googleButton: {
+    alignItems: "center",
+    backgroundColor: "white",
+    borderColor: "#D1D5DB",
+    borderRadius: 8,
+    borderWidth: 1,
+    padding: 14,
+  },
+  googleButtonText: {
+    color: "#111827",
     fontSize: 16,
     fontWeight: "bold",
   },
