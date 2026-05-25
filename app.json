@@ -2,7 +2,7 @@
   "expo": {
     "name": "Taskly",
     "slug": "tasly",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "taskly",
@@ -20,7 +20,8 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.lakshyamishrasorganization.tasly"
+      "package": "com.lakshyamishrasorganization.tasly",
+      "versionCode": 2
     },
     "web": {
       "output": "static",
