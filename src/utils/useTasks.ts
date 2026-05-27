@@ -21,6 +21,10 @@ type CreateTaskInput = {
   priority: TaskPriority;
 };
 
+type UpdateTaskInput = Partial<
+  Pick<Task, "title" | "note" | "date" | "priority" | "completed">
+>;
+
 // Returns a user-scoped storage key so each user sees only their tasks
 const getStorageKey = (): string => {
   const uid = auth.currentUser?.uid;
@@ -110,6 +114,17 @@ export const useTasks = () => {
     await writeTasks(updatedTasks);
   }, []);
 
+  const updateTask = useCallback(
+    async (taskId: string, taskInput: UpdateTaskInput) => {
+      const savedTasks = await readTasks();
+      const updatedTasks = savedTasks.map((task) =>
+        task.id === taskId ? { ...task, ...taskInput } : task
+      );
+      await writeTasks(updatedTasks);
+    },
+    []
+  );
+
   const deleteTask = useCallback(async (taskId: string) => {
     const savedTasks = await readTasks();
     const updatedTasks = savedTasks.filter((task) => task.id !== taskId);
@@ -139,6 +154,7 @@ export const useTasks = () => {
     isLoading,
     stats,
     addTask,
+    updateTask,
     toggleTaskComplete,
     deleteTask,
     clearTasks,

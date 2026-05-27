@@ -2,6 +2,7 @@ import BottomNavigation from "@/src/components/BottomNavigation";
 import PrioritySelector from "@/src/components/PrioritySelector";
 import { TaskPriority, useTasks } from "@/src/utils/useTasks";
 import { Ionicons } from "@expo/vector-icons";
+import { router } from "expo-router";
 import React, { useMemo, useState } from "react";
 import {
   Alert,
@@ -20,7 +21,7 @@ const Schedule = () => {
   const [title, setTitle] = useState("");
   const [note, setNote] = useState("");
   const [priority, setPriority] = useState<TaskPriority>("Normal");
-  const { tasks, addTask, toggleTaskComplete } = useTasks();
+  const { tasks, addTask } = useTasks();
 
   const selectedDateKey = formatTaskDate(selectedDate);
 
@@ -205,7 +206,12 @@ const Schedule = () => {
               <TouchableOpacity
                 key={task.id}
                 activeOpacity={0.85}
-                onPress={() => toggleTaskComplete(task.id)}
+                onPress={() =>
+                  router.push({
+                    pathname: "/task/[id]",
+                    params: { id: task.id },
+                  })
+                }
                 className="bg-slate-600 rounded-xl p-4"
               >
                 <Text

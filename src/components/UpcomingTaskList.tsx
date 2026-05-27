@@ -1,9 +1,10 @@
 import { useTasks } from "@/src/utils/useTasks";
+import { router } from "expo-router";
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 
 const UpcomingTaskList = () => {
-  const { isLoading, tasks, toggleTaskComplete } = useTasks();
+  const { isLoading, tasks } = useTasks();
   const upcomingTasks = tasks
     .filter((task) => !task.completed)
     .sort((firstTask, secondTask) =>
@@ -36,7 +37,9 @@ const UpcomingTaskList = () => {
         <TouchableOpacity
           key={task.id}
           activeOpacity={0.85}
-          onPress={() => toggleTaskComplete(task.id)}
+          onPress={() =>
+            router.push({ pathname: "/task/[id]", params: { id: task.id } })
+          }
           className="bg-slate-600 rounded-xl p-4"
         >
           <View className="flex-row items-center justify-between gap-3">
@@ -56,7 +59,7 @@ const UpcomingTaskList = () => {
               </Text>
             </View>
             <Text className="text-white text-sm font-bold">
-              {task.completed ? "Done" : "Pending"}
+              Open
             </Text>
           </View>
         </TouchableOpacity>

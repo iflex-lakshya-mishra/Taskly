@@ -25,6 +25,7 @@ export default function Layout() {
         <Stack.Screen name="schedule" />
         <Stack.Screen name="stats" />
         <Stack.Screen name="settings" />
+        <Stack.Screen name="task/[id]" />
         <Stack.Screen
           name="create-task"
           options={{ animation: modalAnimation }}

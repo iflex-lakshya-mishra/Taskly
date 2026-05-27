@@ -1,11 +1,12 @@
 import BottomNavigation from "@/src/components/BottomNavigation";
 import TaskSummary from "@/src/components/TaskSummary";
 import { useTasks } from "@/src/utils/useTasks";
+import { router } from "expo-router";
 import React from "react";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 
 const Stats = () => {
-  const { tasks, toggleTaskComplete } = useTasks();
+  const { tasks } = useTasks();
   const historyTasks = [...tasks].sort((firstTask, secondTask) =>
     secondTask.createdAt.localeCompare(firstTask.createdAt)
   );
@@ -28,7 +29,12 @@ const Stats = () => {
               <TouchableOpacity
                 key={task.id}
                 activeOpacity={0.85}
-                onPress={() => toggleTaskComplete(task.id)}
+                onPress={() =>
+                  router.push({
+                    pathname: "/task/[id]",
+                    params: { id: task.id },
+                  })
+                }
                 className="bg-slate-600 rounded-xl p-4"
               >
                 <View className="flex-row justify-between gap-3">
