@@ -2,11 +2,7 @@ import { auth } from "@/src/firebase/config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import {
-  GoogleAuthProvider,
-  signInWithEmailAndPassword,
-  signInWithCredential,
-} from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import {
   Alert,
@@ -47,7 +43,7 @@ const LoginScreen = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+  const isGoogleLoading = false;
 
   const handleLogin = async () => {
     if (!email || !password) {
@@ -134,11 +130,13 @@ const LoginScreen = () => {
   return (
     <ImageBackground source={loginBg} resizeMode="cover" className="flex-1">
       <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
         className="flex-1"
       >
         <ScrollView
+          style={styles.scrollView}
           keyboardShouldPersistTaps="handled"
+          keyboardDismissMode="on-drag"
           contentContainerStyle={styles.scrollContent}
         >
           <View style={styles.card}>
@@ -244,6 +242,9 @@ const LoginScreen = () => {
 };
 
 const styles = StyleSheet.create({
+  scrollView: {
+    flex: 1,
+  },
   scrollContent: {
     flexGrow: 1,
     justifyContent: "center",

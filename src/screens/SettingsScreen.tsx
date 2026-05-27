@@ -30,7 +30,7 @@ const Settings = () => {
         if (stored) setName(stored);
       });
     }
-  }, []);
+  }, [name, user]);
 
   const handleSaveName = async () => {
     const displayName = name.trim();
@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
   content: {
     paddingHorizontal: 20,
     paddingTop: 20,
-    paddingBottom: 24,
+    paddingBottom: 100,
     gap: 12,
   },
   pageTitle: {

@@ -12,7 +12,7 @@ const Stats = () => {
 
   return (
     <View className="flex-1 bg-[#161622]">
-      <ScrollView className="flex-1" contentContainerClassName="pt-14 pb-8">
+      <ScrollView className="flex-1" contentContainerClassName="pt-14 pb-28">
         <View className="px-5">
           <Text className="text-white text-2xl font-bold">History</Text>
           <Text className="text-gray-400 mt-1">

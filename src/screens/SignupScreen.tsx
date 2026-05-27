@@ -38,7 +38,7 @@ const SignupScreen = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+  const isGoogleLoading = false;
 
   const handleSignup = async () => {
     const trimmedName = name.trim();
@@ -111,11 +111,13 @@ const SignupScreen = () => {
   return (
     <ImageBackground source={loginBg} resizeMode="cover" className="flex-1">
       <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
         className="flex-1"
       >
         <ScrollView
+          style={styles.scrollView}
           keyboardShouldPersistTaps="handled"
+          keyboardDismissMode="on-drag"
           contentContainerStyle={styles.scrollContent}
         >
           <View style={styles.card}>
@@ -232,6 +234,9 @@ const SignupScreen = () => {
 };
 
 const styles = StyleSheet.create({
+  scrollView: {
+    flex: 1,
+  },
   scrollContent: {
     flexGrow: 1,
     justifyContent: "center",

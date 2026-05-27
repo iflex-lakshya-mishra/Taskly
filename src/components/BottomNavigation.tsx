@@ -21,11 +21,17 @@ const TABS = [
 export default function BottomNavigation() {
   const pathname = usePathname();
   const insets = useSafeAreaInsets();
+  const bottomInset = Math.max(insets.bottom, 0);
 
   return (
     <View
-      className="flex-row bg-[#12122A] border-t border-[#2D2D4A]"
-      style={[styles.container, { paddingBottom: insets.bottom + 8 }]}
+      style={[
+        styles.container,
+        {
+          height: 64 + bottomInset,
+          paddingBottom: bottomInset,
+        },
+      ]}
     >
       {TABS.map((tab) => {
         const isActive = pathname === tab.path;
@@ -38,7 +44,7 @@ export default function BottomNavigation() {
               }
             }}
             activeOpacity={0.7}
-            className="flex-1 items-center gap-1"
+            style={styles.tab}
           >
             <View
               className={`w-10 h-10 rounded-full items-center justify-center ${
@@ -67,6 +73,18 @@ export default function BottomNavigation() {
 
 const styles = StyleSheet.create({
   container: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    backgroundColor: "#12122A",
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: "#2D2D4A",
     paddingTop: 8,
+  },
+  tab: {
+    flex: 1,
+    height: 56,
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 4,
   },
 });

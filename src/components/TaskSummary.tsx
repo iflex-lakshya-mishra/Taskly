@@ -7,7 +7,7 @@ const TaskSummary = () => {
     isLoading,
     stats: { totalTasks, completedTasks, pendingTasks, progress },
   } = useTasks();
-  const progressPercent = Math.floor(progress);
+  const progressPercent = Math.min(100, Math.max(0, Math.floor(progress)));
 
   return (
     <View className="mt-5 px-4">
@@ -42,9 +42,8 @@ const TaskSummary = () => {
           <Text className="text-blue-400 font-bold">{progressPercent}%</Text>
         </View>
 
-        <View className="w-full h-4 bg-gray-700 rounded-full overflow-hidden mt-4">
+        <View style={styles.progressTrack}>
           <View
-            className="h-4 bg-blue-500 rounded-full"
             style={[styles.progressBarFill, { width: `${progressPercent}%` }]}
           />
         </View>
@@ -60,8 +59,18 @@ const TaskSummary = () => {
 };
 
 const styles = StyleSheet.create({
+  progressTrack: {
+    width: "100%",
+    height: 16,
+    overflow: "hidden",
+    backgroundColor: "#374151",
+    borderRadius: 999,
+    marginTop: 16,
+  },
   progressBarFill: {
     height: 16,
+    backgroundColor: "#3B82F6",
+    borderRadius: 999,
   },
 });
 

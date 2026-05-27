@@ -86,7 +86,7 @@ const Schedule = () => {
     <View className="flex-1 bg-[#161622]">
       <ScrollView
         className="flex-1"
-        contentContainerClassName="px-5 pt-14 pb-8"
+        contentContainerClassName="px-5 pt-14 pb-28"
         keyboardShouldPersistTaps="handled"
       >
         <Text className="text-white text-2xl font-bold">Schedule</Text>

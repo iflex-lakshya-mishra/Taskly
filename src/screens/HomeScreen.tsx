@@ -105,7 +105,7 @@ const HomeScreen = () => {
         Upcoming Tasks
       </Text>
       <ScrollView className="flex-1 bg-[#0F172A]">
-        <View className="pb-4">
+        <View className="pb-28">
           <UpcomingTaskList />
         </View>
       </ScrollView>

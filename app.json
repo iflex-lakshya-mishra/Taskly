@@ -20,7 +20,7 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.lakshyamishrasorganization.tasly",
+      "package": "com.taskly.app",
       "versionCode": 2
     },
     "web": {
