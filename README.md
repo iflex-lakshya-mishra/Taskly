@@ -2,6 +2,10 @@
 
 A simple Expo React Native todo app for organizing tasks with a clean UI.
 
+## 📱 Install Taskly
+
+[⬇️ Download Taskly APK](https://github.com/iflex-lakshya-mishra/Taskly/releases/download/v1.0.0/Taskly.apk.apk)
+
 ## Screenshots
 
 > Add your app screenshots here.
